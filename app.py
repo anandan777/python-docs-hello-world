@@ -1,10 +1,16 @@
-from flask import Flask
+import os
+from flask import Flask, send_from_directory
+
 app = Flask(__name__)
 
-@app.route("/")
-def hello():
-    return "poc"
+# Serve static files from the "cdn-images" folder
+@app.route('/cdn-images/<path:filename>')
+def serve_static(filename):
+    return send_from_directory('cdn-images', filename)
 
-@app.route("/cdn-images/stock/y/yf17vwj-7-l.jpg")
+@app.route('/')
 def hello():
-    return "blabla"
+    return "Hello, World! Your static file server is ready!"
+
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=8000)
